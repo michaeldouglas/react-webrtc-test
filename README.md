@@ -15,12 +15,12 @@ npm install --save react-webrtc-test
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'react-webrtc-test'
+import WebRtcTestComponent from 'react-webrtc-test'
 
 class Example extends Component {
   render () {
     return (
-      <MyComponent />
+      <WebRtcTestComponent />
     )
   }
 }

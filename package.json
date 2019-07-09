@@ -1,6 +1,6 @@
 {
   "name": "react-webrtc-test",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A react component for test WebRtc",
   "author": "michaeldouglas",
   "license": "MIT",
@@ -56,9 +56,7 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-url": "^1.4.0"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "milligram": "^1.3.0"
   }
