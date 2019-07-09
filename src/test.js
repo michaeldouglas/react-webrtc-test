@@ -1,7 +1,7 @@
-import ExampleComponent from './'
+import WebRtcTestComponent from './';
 
 describe('ExampleComponent', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
-  })
-})
+    expect(WebRtcTestComponent).toBeTruthy();
+  });
+});

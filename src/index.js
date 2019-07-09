@@ -1,22 +1,71 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component, Fragment } from 'react';
+import Microphone from './Microphone/microphone';
 
-import styles from './styles.css'
+import styles from './styles.css';
+import 'milligram/dist/milligram.css';
+import Camera from './Camera/Camera';
+import Error from './Error/Error';
+import Audio from './Audio/Audio';
 
-export default class ExampleComponent extends Component {
-  static propTypes = {
-    text: PropTypes.string
+export default class WebRtcTestComponent extends Component {
+  state = {
+    permissionMic: true,
+    permissionCam: true,
+  };
+
+  componentDidMount() {
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: false,
+        video: true,
+      })
+      .catch(() => {
+        this.setState({
+          permissionCam: false,
+        });
+      });
+
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: true,
+        video: false,
+      })
+      .catch(() => {
+        this.setState({
+          permissionMic: false,
+        });
+      });
   }
 
   render() {
-    const {
-      text
-    } = this.props
-
     return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
-    )
+      <Fragment>
+        <div className={`container ${styles.app}`}>
+          <div className={`row`}>
+            {this.state.permissionMic ? (
+              <Microphone />
+            ) : (
+              <Error
+                text={'Infelizmente não conseguimos detectar seu microfone'}
+              />
+            )}
+          </div>
+          <div className={`row`}>
+            {this.state.permissionCam ? (
+              <Camera />
+            ) : (
+              <Error
+                text={'Infelizmente não conseguimos detectar sua câmera'}
+              />
+            )}
+          </div>
+        </div>
+        <div className={`container ${styles.app} ${styles.topAudio}`}>
+          <div className={`row`}>
+            <Audio />
+          </div>
+        </div>
+      </Fragment>
+    );
   }
 }

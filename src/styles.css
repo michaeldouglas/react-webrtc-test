@@ -1,8 +1,79 @@
 /* add css styles here (optional) */
 
-.test {
-  display: inline-block;
-  margin: 2em auto;
-  border: 2px solid #000;
-  font-size: 2em;
+:root {
+  --highlight-color: #abcabc;
+  --color-primary: #081138;
+  --color-primary-border: #000000;
+  --boder: 30px;
 }
+
+.marginRight {
+  margin-right: 5rem;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.sizeAudio {
+  width: 400px;
+  height: 400px;
+}
+
+.backgroundVisualiser {
+  background: var(--color-primary);
+  border-radius: var(--boder);
+  border: 2px solid;
+}
+
+.backgroundCamera {
+  border-radius: var(--boder);
+  background: var(--color-primary-border);
+}
+
+button {
+  background-color: var(--color-primary) !important;
+  border: 0.1rem solid var(--color-primary-border) !important;
+}
+
+.active {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.appAudio {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.topAudio {
+  margin-top: 2.5rem;
+}
+
+.app .box {
+  width: 30%;
+  height: 50%;
+}
+
+/* 
+
+.app .box .controls {
+  display: flex;
+}
+
+.app .box .controls .item {
+  display: flex;
+  justify-content: space-around;
+  flex: 1;
+  align-items: center;
+} */
