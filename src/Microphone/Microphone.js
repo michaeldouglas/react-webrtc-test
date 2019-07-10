@@ -9,7 +9,7 @@ export default class Microphone extends Component {
     audio: null,
     audioSelect: null,
     listAudios: [],
-    valueAudio: '',
+    valueAudio: ''
   };
   audioinput = [];
   elementRef = new React.createRef();
@@ -26,17 +26,18 @@ export default class Microphone extends Component {
   handleChange(event) {
     const constraints = {
       audio: {
-        deviceId: event.target.value
-          ? { exact: event.target.value }
-          : undefined,
+        deviceId: event.target.value ? { exact: event.target.value } : undefined
       },
-      video: false,
+      video: false
     };
-    const audio = navigator.mediaDevices.getUserMedia(constraints);
+
+    this.props.changeKindId(event.target.value);
+
     this.setState({
-      audioSelect: audio,
+      audioSelect: navigator.mediaDevices.getUserMedia(constraints),
+      value: event.target.value,
+      audio: false
     });
-    this.setState({ value: event.target.value, audio: false });
   }
 
   componentDidMount() {
@@ -47,12 +48,12 @@ export default class Microphone extends Component {
             this.audioinput.push({
               id: device.deviceId,
               kind: device.kind,
-              label: device.label,
+              label: device.label
             });
           }
         });
         this.setState(prevState => ({
-          listAudios: [...prevState.listAudios, this.audioinput],
+          listAudios: [...prevState.listAudios, this.audioinput]
         }));
       })
       .catch(function(err) {
@@ -61,9 +62,10 @@ export default class Microphone extends Component {
   }
 
   getMicrophone() {
+    console.log(this.state.audioSelect);
     if (this.state.audioSelect) {
       this.setState({
-        audio: this.state.audioSelect,
+        audio: this.state.audioSelect
       });
     }
   }
@@ -87,6 +89,7 @@ export default class Microphone extends Component {
     const listMicrophone = this.state.listAudios[0];
     return (
       <select
+        disabled={this.state.audio !== null}
         className={styles.selectAudio}
         value={this.state.value}
         onChange={this.handleChange}

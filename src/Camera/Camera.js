@@ -9,6 +9,7 @@ export default class Camera extends Component {
     videoSelect: null,
     listVideos: [],
     permission: true,
+    src: ''
   };
   videoinput = [];
   player = null;
@@ -24,24 +25,22 @@ export default class Camera extends Component {
   }
 
   handleChange(event) {
-    const constraints = {
+    const video = navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
-        deviceId: event.target.value
-          ? { exact: event.target.value }
-          : undefined,
-      },
-    };
-    const video = navigator.mediaDevices.getUserMedia(constraints);
+        deviceId: event.target.value ? { exact: event.target.value } : undefined
+      }
+    });
+
     this.setState({
       videoSelect: video,
+      value: event.target.value,
+      video: false
     });
-    this.setState({ value: event.target.value, video: false });
   }
 
   componentDidMount() {
-    const node = this.elementRef.current;
-    this.player = node;
+    this.player = this.elementRef.current;
 
     this.enumerateDevices
       .then(devices => {
@@ -50,12 +49,12 @@ export default class Camera extends Component {
             this.videoinput.push({
               id: device.deviceId,
               kind: device.kind,
-              label: device.label,
+              label: device.label
             });
           }
         });
         this.setState(prevState => ({
-          listVideos: [...prevState.listVideos, this.videoinput],
+          listVideos: [...prevState.listVideos, this.videoinput]
         }));
       })
       .catch(function(err) {
@@ -67,6 +66,7 @@ export default class Camera extends Component {
     const listMicrophone = this.state.listVideos[0];
     return (
       <select
+        disabled={this.state.video !== null}
         className={styles.selectAudio}
         value={this.state.value}
         onChange={this.handleChange}
@@ -79,6 +79,13 @@ export default class Camera extends Component {
         ))}
       </select>
     );
+  }
+
+  stopCamera() {
+    this.state.videoSelect.then(video => {
+      video.getTracks().forEach(track => track.stop());
+    });
+    this.setState({ video: null });
   }
 
   toggleCamera() {
@@ -104,7 +111,7 @@ export default class Camera extends Component {
       this.player.srcObject = stream;
     } catch (error) {
       this.setState({
-        src: window.URL.createObjectURL(stream),
+        src: window.URL.createObjectURL(stream)
       });
     }
   }

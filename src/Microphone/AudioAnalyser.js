@@ -4,13 +4,13 @@ import AudioVisualiser from './AudioVisualiser';
 import styles from './../styles.css';
 
 class AudioAnalyser extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = { audioData: new Uint8Array(0) };
     this.tick = this.tick.bind(this);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.audioContext = new (window.AudioContext ||
       window.webkitAudioContext)();
 
@@ -23,22 +23,25 @@ class AudioAnalyser extends Component {
     });
   }
 
-  tick () {
+  tick() {
     this.analyser.getByteTimeDomainData(this.dataArray);
     this.setState({ audioData: this.dataArray });
     this.rafId = requestAnimationFrame(this.tick);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     cancelAnimationFrame(this.rafId);
     this.analyser.disconnect();
     this.source.disconnect();
   }
 
-  render () {
+  render() {
     return (
-      <div className={`column column-33 ${styles.backgroundVisualiser}`}>
-        <AudioVisualiser audioData={this.state.audioData} />
+      <div className={`column column-33 ${styles.boxCanvas} `}>
+        <AudioVisualiser
+          audioData={this.state.audioData}
+          audioContext={this.audioContext}
+        />
       </div>
     );
   }

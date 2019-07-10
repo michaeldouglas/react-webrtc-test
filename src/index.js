@@ -11,30 +11,34 @@ export default class WebRtcTestComponent extends Component {
   state = {
     permissionMic: true,
     permissionCam: true,
+    kindId: null
   };
 
   componentDidMount() {
     navigator.mediaDevices
       .getUserMedia({
         audio: false,
-        video: true,
+        video: true
       })
       .catch(() => {
         this.setState({
-          permissionCam: false,
+          permissionCam: false
         });
       });
-
     navigator.mediaDevices
       .getUserMedia({
         audio: true,
-        video: false,
+        video: false
       })
       .catch(() => {
         this.setState({
-          permissionMic: false,
+          permissionMic: false
         });
       });
+  }
+
+  changeKindId(kindId) {
+    this.setState({ kindId });
   }
 
   render() {
@@ -43,7 +47,7 @@ export default class WebRtcTestComponent extends Component {
         <div className={`container ${styles.app}`}>
           <div className={`row`}>
             {this.state.permissionMic ? (
-              <Microphone />
+              <Microphone changeKindId={kindId => this.changeKindId(kindId)} />
             ) : (
               <Error
                 text={'Infelizmente não conseguimos detectar seu microfone'}
@@ -62,7 +66,7 @@ export default class WebRtcTestComponent extends Component {
         </div>
         <div className={`container ${styles.app} ${styles.topAudio}`}>
           <div className={`row`}>
-            <Audio />
+            <Audio kindId={this.state.kindId} />
           </div>
         </div>
       </Fragment>
