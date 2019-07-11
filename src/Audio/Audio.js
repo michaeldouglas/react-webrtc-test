@@ -37,9 +37,28 @@ export default class Audio extends Component {
             });
           }
         });
+
         this.setState(prevState => ({
           listOutputs: [...prevState.listOutputs, this.audioOutput]
         }));
+
+        if (this.props.kindId) {
+          this.setState({ output: true });
+
+          let constraints = {
+            audio: {
+              deviceId: this.audioOutput[0].id
+            },
+            video: false
+          };
+
+          this.setState({
+            outputSelect: navigator.mediaDevices.getUserMedia(constraints)
+          });
+          this.state.outputSelect.then(stream => {
+            this.handleUserMedia(stream);
+          });
+        }
       })
       .catch(function(err) {
         console.log(`${err.name}: ${err.message}`);
@@ -94,7 +113,6 @@ export default class Audio extends Component {
         value={this.state.value}
         onChange={this.handleChange}
       >
-        <option>Selecione</option>
         {listOutputs.map(item => (
           <option key={item.id} value={item.id}>
             {item.label}
@@ -132,7 +150,6 @@ export default class Audio extends Component {
     this.stream = stream;
     this.setState({ output: true });
     try {
-      // this.playerAudio.setSinkId(this.state.value);
       this.playerAudio.srcObject = stream;
     } catch (error) {
       this.setState({

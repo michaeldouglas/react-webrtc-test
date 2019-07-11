@@ -31,7 +31,7 @@ export default class Microphone extends Component {
       video: false
     };
 
-    this.props.changeKindId(event.target.value);
+    this.props.changeKindId(false);
 
     this.setState({
       audioSelect: navigator.mediaDevices.getUserMedia(constraints),
@@ -62,8 +62,8 @@ export default class Microphone extends Component {
   }
 
   getMicrophone() {
-    console.log(this.state.audioSelect);
     if (this.state.audioSelect) {
+      this.props.changeKindId(this.state.value);
       this.setState({
         audio: this.state.audioSelect
       });
@@ -74,6 +74,7 @@ export default class Microphone extends Component {
     this.state.audio.then(audio => {
       audio.getTracks().forEach(track => track.stop());
     });
+    this.props.changeKindId(false);
     this.setState({ audio: null });
   }
 

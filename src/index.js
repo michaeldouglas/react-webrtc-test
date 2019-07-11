@@ -66,7 +66,7 @@ export default class WebRtcTestComponent extends Component {
         </div>
         <div className={`container ${styles.app} ${styles.topAudio}`}>
           <div className={`row`}>
-            <Audio kindId={this.state.kindId} />
+            {this.state.kindId && <Audio kindId={this.state.kindId} />}
           </div>
         </div>
       </Fragment>
